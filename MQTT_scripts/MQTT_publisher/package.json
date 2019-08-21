@@ -1,0 +1,17 @@
+{
+  "name": "mqtt_publisher",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mqtt_publisher.js",
+  "scripts": {
+    "start": "node mqtt_publisher.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mqtt": "^3.0.0"
+  },
+  "engines": {
+    "node": "10.x"
+  }
+}
