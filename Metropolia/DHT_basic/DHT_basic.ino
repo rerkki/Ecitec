@@ -26,17 +26,17 @@ void loop()
   //Serial.println(serial_port_str); 
 
   //print to serial plotter
-  Serial.print(h);
-  Serial.print(" ");
-  Serial.println(t);
+  //Serial.print(h);
+  //Serial.print(" ");
+  //Serial.println(t);
 
   //print JSON string
-  //Serial.print("{\"H\":");
-  //Serial.print(h);
-  //Serial.print(",");
-  //Serial.print("\"T\":");
-  //Serial.print(t);
-  //Serial.println("}");
+  Serial.print("{\"H\":");
+  Serial.print(h);
+  Serial.print(",");
+  Serial.print("\"T\":");
+  Serial.print(t);
+  Serial.println("}");
 
    delay(2000);
  }
