@@ -31,12 +31,14 @@ void loop()
   //Serial.println(t);
 
   //print JSON string
+  
   Serial.print("{\"H\":");
   Serial.print(h);
   Serial.print(",");
   Serial.print("\"T\":");
   Serial.print(t);
   Serial.println("}");
+  
 
    delay(2000);
  }
