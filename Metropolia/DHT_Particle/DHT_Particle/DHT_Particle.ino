@@ -1,5 +1,5 @@
-// This #include statement was automatically added by the Particle IDE.
 #include <Adafruit_DHT_Particle.h>
+#include "MQTT.h"
 
 #define DHTPIN 2 //Digital pin 2
 
@@ -11,26 +11,37 @@ String ID = "1"; // Jokaiselle ryhmälle oltava eri ID
 
 DHT dht(DHTPIN, DHTTYPE);
 
-void setup() {
-  Serial.begin(9600); 
-  Serial.println("DHTxx test!");
-  dht.begin();
-}
+void callback(char* topic, byte* payload, unsigned int length);
 
-void loop() {
+MQTT client("broker.hivemq.com", 1883, callback);
 
-  delay(10000);
+// recieve message
+void callback(char* topic, byte* payload, unsigned int length) {
+    
+    char p[length + 1];
+    memcpy(p, payload, length);
+    p[length] = NULL;
+
   float h = dht.getHumidity();
   float t = dht.getTempCelcius();
 
+  String PubStr = "{\"Time\":" + String(p) + "," + "\"H\":" + String(h) + "," + "\"T\":" + String(t) + "," + "\"ID\":" + ID + "}";
+    client.publish("urbanFarm/data", PubStr);
+}
 
-  if (isnan(h) || isnan(t)) {
-    Serial.println("Failed to read from DHT sensor!");
-    return;
-  }
 
-  String PubStr = "{\"H\":" + String(h) + "," + "\"T\":" + String(t) + "," + "\"ID\":" + ID + "}";
+void setup() {
+    dht.begin();
 
-  Particle.publish("UrbanFarm", PubStr);
-  
+    client.connect("");
+
+    if (client.isConnected()) {
+        client.subscribe("urbanFarm/request");
+    }
+    
+}
+
+void loop() {
+    if (client.isConnected())
+        client.loop();
 }
