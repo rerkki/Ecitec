@@ -65,7 +65,7 @@ function timeConverter(UNIX_timestamp){
 }
 
 function createConnection(onCreate){
-    MongoClient.connect('mongodb+srv://eki:langistester@cluster0-fn7gd.gcp.mongodb.net/UrbanFarm?retryWrites=true&w=majority', function(err, client_m) {
+    MongoClient.connect('mongodb+srv://metropolia:metropolia@cluster0-fn7gd.gcp.mongodb.net/UrbanFarm?retryWrites=true&w=majority', function(err, client_m) {
 	db = client_m.db('UrbanFarm');
 	   if(err)
               throw err;
