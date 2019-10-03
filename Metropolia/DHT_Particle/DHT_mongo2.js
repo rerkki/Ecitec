@@ -3,13 +3,14 @@ const mqtt = require('mqtt');
 const broker = 'mqtt://broker.hivemq.com:1883';
 const user = '';
 const pw = '';
+
 const MongoClient = require('mongodb').MongoClient;
-var msg = 0;
 
 var myCollection;
 var db;
-var obj_m;
-var objArr = [];
+var obj;
+var obj_1;
+var obj_2;
 
 mq = mqtt.connect(broker, {
   'username': user,
@@ -26,24 +27,32 @@ mq.on('reconnect', function(err) {
 
 function pub_index(){
   mq.publish('urbanFarm/request', timeConverter(Date.now()).toString() );
-  console.log(objArr);
-  	createConnection(function(){
-  		addDocument(function(){
-		});
-  	});
-  objArr = [];
-  msg = 0;
-}
+};
 
 mq.on('connect', function(err) {
-  setInterval(function(){pub_index()},60000)
+  setInterval(function(){pub_index()},5000)
 })
 
 mq.on('message', function(topic, message) {
   obj = JSON.parse(message);
-  msg +=1;
-  obj_m = {Group: obj.ID, Time: obj.Time, T: Number(obj.T.toFixed(1)), H: Number(obj.H.toFixed(1))};
-  objArr[msg-1]= obj_m;
+  console.log(obj);
+  console.log(obj.ID);
+  if(obj.ID==1) obj_1 = obj;
+  if(obj.ID==2) obj_2 = obj;
+  console.log(obj_1);
+  console.log(obj_2);
+    MongoClient.connect('mongodb+srv://eki:langistester@cluster0-fn7gd.gcp.mongodb.net/UrbanFarm?retryWrites=true&w=majority', function(err, client_m) {
+	db = client_m.db('UrbanFarm');
+	if(err) throw err;
+	console.log("connected to the mongoDB !");
+	console.log(obj.ID);
+	myCollection = db.collection('UrbanFarm');
+	myCollection.insertMany([obj_1,obj_2], function(err, result) {
+        	if(err) throw err;
+        	console.log("entry saved");
+		client_m.close();
+	});
+    });
 });
 
 mq.subscribe('urbanFarm/data');
@@ -62,27 +71,5 @@ function timeConverter(UNIX_timestamp){
   var sec = a.getSeconds();
   var time = '\"' + year + '-' + month + '-' + date + ' ' + hour + ':' + min + ':' + sec + '\"';
   return time;
-}
-
-function createConnection(onCreate){
-    MongoClient.connect('mongodb+srv://eki:langistester@cluster0-fn7gd.gcp.mongodb.net/UrbanFarm?retryWrites=true&w=majority', function(err, client_m) {
-	db = client_m.db('UrbanFarm');
-	   if(err)
-              throw err;
-	   console.log("connected to the mongoDB !");
-	   console.log(obj.ID);
-	   myCollection = db.collection('UrbanFarm');
-	   onCreate();
-	   client_m.close();
-    });
-}
-
-function addDocument(onAdded){
-    myCollection.insertMany(objArr, function(err, result) {
-        if(err)
-            throw err;
-        console.log("entry saved");
-        onAdded();
-    });
 }
 
