@@ -26,17 +26,21 @@ mq.on('reconnect', function(err) {
 
 function pub_index(){
   mq.publish('urbanFarm/request', timeConverter(Date.now()).toString() );
-  console.log(objArr);
-  	createConnection(function(){
-  		addDocument(function(){
-		});
-  	});
-  objArr = [];
-  msg = 0;
+  setTimeout(function() {
+    console.log(objArr);
+    console.log(objArr.length);
+	if(objArr.length > 0) {
+  	  createConnection(function(){
+	     console.log(objArr.length);
+  		  addDocument(function(){
+		  });
+  	    });
+         }
+   },500)
 }
 
 mq.on('connect', function(err) {
-  setInterval(function(){pub_index()},60000)
+  setInterval(function(){pub_index()},900000)
 })
 
 mq.on('message', function(topic, message) {
@@ -78,11 +82,13 @@ function createConnection(onCreate){
 }
 
 function addDocument(onAdded){
-    myCollection.insertMany(objArr, function(err, result) {
-        if(err)
-            throw err;
-        console.log("entry saved");
-        onAdded();
-    });
+      myCollection.insertMany(objArr, function(err, result) {
+          if(err)
+              throw err;
+          console.log("entry saved");
+	  objArr = [];
+          msg = 0;
+          onAdded();
+      });
 }
 

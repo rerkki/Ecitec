@@ -1,0 +1,15 @@
+{
+  "name": "dht_particle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "DHT_mongo.js",
+  "scripts": {
+    "start": "node DHT_mongo.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^3.3.2",
+    "mqtt": "^3.0.0"
+  }
+}
