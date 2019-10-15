@@ -69,7 +69,7 @@ function timeConverter(UNIX_timestamp){
 }
 
 function createConnection(onCreate){
-    MongoClient.connect('mongodb+srv://metropolia:metropolia@cluster0-xxxxx.gcp.mongodb.net/UrbanFarm?retryWrites=true&w=majority', function(err, client_m) {
+    MongoClient.connect('mongodb://127.0.0.1:27017/opiframe', function(err, client_m) {
 	db = client_m.db('Opiframe');
 	   if(err)
               throw err;
