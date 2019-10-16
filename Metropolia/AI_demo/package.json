@@ -1,10 +1,10 @@
 {
-  "name": "DHT_mongo_master",
+  "name": "softsensor",
   "version": "1.0.0",
   "description": "",
-  "main": "DHT_mongo_master.js",
+  "main": "softsensor.js",
   "scripts": {
-    "start": "node DHT_mongo_master.js"
+    "start": "softsensor.js"
   },
   "author": "",
   "license": "ISC",
