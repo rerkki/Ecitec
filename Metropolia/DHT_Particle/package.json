@@ -2,9 +2,9 @@
   "name": "dht_particle",
   "version": "1.0.0",
   "description": "",
-  "main": "DHT_mongo.js",
+  "main": "DHT_mongo_master.js",
   "scripts": {
-    "start": "node DHT_mongo.js"
+    "start": "node DHT_mongo_master.js"
   },
   "author": "",
   "license": "ISC",

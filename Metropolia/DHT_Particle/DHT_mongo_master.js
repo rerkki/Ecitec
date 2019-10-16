@@ -24,8 +24,7 @@ mq.on('reconnect', function(err) {
   return console.log("mq_pub reconnected");
 });
 
-function pub_index(){
-  mq.publish('Opiframe/request', timeConverter(Date.now()).toString() );
+function save_messages(){
   setTimeout(function() {
     console.log(objArr);
     console.log(objArr.length);
@@ -39,8 +38,13 @@ function pub_index(){
    },500)
 }
 
+function pub_index(){
+mq.publish('Opiframe/request', timeConverter(Date.now()).toString() );
+}
+
 mq.on('connect', function(err) {
-  setInterval(function(){pub_index()},5000)
+   console.log('Connected...');
+   setInterval(function(){pub_index()},60000)
 })
 
 mq.on('message', function(topic, message) {
@@ -48,6 +52,9 @@ mq.on('message', function(topic, message) {
   msg +=1;
   obj_m = {Group: obj.ID, Time: obj.Time, T: Number(obj.T.toFixed(1)), H: Number(obj.H.toFixed(1))};
   objArr[msg-1]= obj_m;
+    if(objArr.length > 1) {
+	save_messages();
+    }
 });
 
 mq.subscribe('Opiframe/data');
@@ -69,7 +76,7 @@ function timeConverter(UNIX_timestamp){
 }
 
 function createConnection(onCreate){
-    MongoClient.connect('mongodb://127.0.0.1:27017/opiframe', function(err, client_m) {
+    MongoClient.connect('mongodb+srv://opiframe:opiframe@cluster0-xxxxx.gcp.mongodb.net/Opiframe1?retryWrites=true&w=majority', function(err, client_m) {
 	db = client_m.db('Opiframe');
 	   if(err)
               throw err;
@@ -91,4 +98,3 @@ function addDocument(onAdded){
           onAdded();
       });
 }
-
