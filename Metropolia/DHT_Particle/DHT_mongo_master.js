@@ -39,12 +39,12 @@ function save_messages(){
 }
 
 function pub_index(){
-mq.publish('Opiframe/request', timeConverter(Date.now()).toString() );
+mq.publish('urbanFarm/request', timeConverter(Date.now()).toString() );
 }
 
 mq.on('connect', function(err) {
    console.log('Connected...');
-   setInterval(function(){pub_index()},60000)
+   setInterval(function(){pub_index()},5000)
 })
 
 mq.on('message', function(topic, message) {
@@ -57,7 +57,7 @@ mq.on('message', function(topic, message) {
     }
 });
 
-mq.subscribe('Opiframe/data');
+mq.subscribe('urbanFarm/data');
 
 if (!Date.now) {
     Date.now = function() { return new Date().getTime(); }
@@ -76,13 +76,13 @@ function timeConverter(UNIX_timestamp){
 }
 
 function createConnection(onCreate){
-    MongoClient.connect('mongodb+srv://opiframe:opiframe@cluster0-xxxxx.gcp.mongodb.net/Opiframe1?retryWrites=true&w=majority', function(err, client_m) {
-	db = client_m.db('Opiframe');
+    MongoClient.connect('mongodb+srv://eki:langistester@cluster0-fn7gd.gcp.mongodb.net/UrbanFarm?retryWrites=true&w=majority', function(err, client_m) {
+	db = client_m.db('UrbanFarm');
 	   if(err)
               throw err;
 	   console.log("connected to the mongoDB !");
 	   console.log(obj.ID);
-	   myCollection = db.collection('Opiframe');
+	   myCollection = db.collection('UrbanFarm');
 	   onCreate();
 	   client_m.close();
     });

@@ -34,7 +34,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   float t = dht.getTempCelcius();
 
   String PubStr = "{\"Time\":" + String(p) + "," + "\"H\":" + String(h) + "," + "\"T\":" + String(t) + "," + "\"ID\":" + ID + "}";
-    client.publish("Opiframe/data", PubStr);
+    client.publish("urbanFarm/data", PubStr);
 
 }
 
@@ -47,7 +47,7 @@ void setup() {
     client.connect("");
 
     if (client.isConnected()) {
-        client.subscribe("Opiframe/request");
+        client.subscribe("urbanFarm/request");
     }
     
 }

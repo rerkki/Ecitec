@@ -25,7 +25,7 @@ mq.on('reconnect', function(err) {
 });
 
 function pub_index(){
-  mq.publish('Opiframe/request', timeConverter(Date.now()).toString() );
+  mq.publish('urbanFarm/request', timeConverter(Date.now()).toString() );
   setTimeout(function() {
     console.log(objArr);
     console.log(objArr.length);
@@ -45,12 +45,13 @@ mq.on('connect', function(err) {
 
 mq.on('message', function(topic, message) {
   obj = JSON.parse(message);
+  console.log(obj);
   msg +=1;
   obj_m = {Group: obj.ID, Time: obj.Time, T: Number(obj.T.toFixed(1)), H: Number(obj.H.toFixed(1))};
   objArr[msg-1]= obj_m;
 });
 
-mq.subscribe('Opiframe/data');
+mq.subscribe('urbanFarm/data');
 
 if (!Date.now) {
     Date.now = function() { return new Date().getTime(); }
@@ -69,13 +70,13 @@ function timeConverter(UNIX_timestamp){
 }
 
 function createConnection(onCreate){
-    MongoClient.connect('mongodb+srv://metropolia:metropolia@cluster0-xxxxx.gcp.mongodb.net/UrbanFarm?retryWrites=true&w=majority', function(err, client_m) {
-	db = client_m.db('Opiframe');
+    MongoClient.connect('mongodb+srv://metropolia:metropolia@cluster0-fn7gd.gcp.mongodb.net/UrbanFarm?retryWrites=true&w=majority', function(err, client_m) {
+	db = client_m.db('UrbanFarm');
 	   if(err)
               throw err;
 	   console.log("connected to the mongoDB !");
 	   console.log(obj.ID);
-	   myCollection = db.collection('Opiframe');
+	   myCollection = db.collection('UrbanFarm');
 	   onCreate();
 	   client_m.close();
     });
@@ -86,9 +87,8 @@ function addDocument(onAdded){
           if(err)
               throw err;
           console.log("entry saved");
-	  objArr = [];
+	        objArr = [];
           msg = 0;
           onAdded();
       });
 }
-
