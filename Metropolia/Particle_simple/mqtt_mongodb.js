@@ -5,10 +5,10 @@ var particle = new Particle();
 
 //Get the following parameters form your Particle account
 var token = '7a824f21406e9a4932d6fa4de0a8d1e4aa91469b';
-var id = '28003c001647363335343834';
+var id = '40002b000247373336323230';
 
 var obj; // data object for received mqtt data
-var m_obj; // data object for mongodb 
+var m_obj; // data object for mongodb
 
 var myCollection;
 var db;
@@ -17,7 +17,7 @@ var client_m;
 
 function save_data() {
 	 obj_ = JSON.parse(obj);
-	 m_obj = {Time: timeConverter(Date.now()), ID: obj.ID, T: obj.T, RH: obj.RH};
+	 m_obj = {Time: timeConverter(Date.now()), T: obj_.T, H: obj_.H};
 	 console.log(m_obj);
 	   createConnection(function(){
     		  addDocument(function(){
@@ -26,7 +26,7 @@ function save_data() {
 }
 
 function addDocument(onAdded){
-   myCollection.insert(p_obj, function(err, result) {
+   myCollection.insert(m_obj, function(err, result) {
 	if(err)
            throw err;
 	   console.log("entry saved");
@@ -35,8 +35,8 @@ function addDocument(onAdded){
 }
 
 function createConnection(onCreate){
-    MongoClient.connect('mongodb+srv://metropolia:metropolia@cluster0-fn7gd.gcp.mongodb.net/dht_sensor?retryWrites=true&w=majority', function(err, client_m) {
-	db = client_m.db('dht_sensor');
+    MongoClient.connect('mongodb+srv://opiframe:opiframe@cluster0-fn7gd.gcp.mongodb.net/mongotest?retryWrites=true&w=majority', function(err, client_m) {
+	db = client_m.db('mongotest');
 	   if(err)
               throw err;
 	   console.log("connected to the mongoDB !");
