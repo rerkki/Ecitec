@@ -1,0 +1,57 @@
+
+#include <Adafruit_DHT_Particle.h>
+#include "MQTT.h"
+
+//#define DHTPIN 2 //Digital pin 2
+
+// Uncomment whatever type you're using!
+//#define DHTTYPE DHT11		// DHT 11
+//#define DHTTYPE DHT21		// DHT 21 (AM2302)
+
+String ID = "13"; // Jokaiselle ryhmälle oltava eri ID
+
+unsigned long start;
+
+void callback(char* topic, byte* payload, unsigned int length);
+
+MQTT client("broker.hivemq.com", 1883, callback);
+
+int Alive(String data) {
+    Particle.publish("alive", "...and kicking!");
+    return 1;
+}
+
+// recieve message
+void callback(char* topic, byte* payload, unsigned int length) {
+
+    char p[length + 1];
+    memcpy(p, payload, length);
+    p[length] = NULL;
+
+	float gas = analogRead(A0);
+
+	String PubStr = "{\"Time\":" + String(p) + "," + "\"Gas\":" + String(gas) + "}";
+    client.publish("urbanFarm/data2", PubStr);
+
+}
+
+
+void setup() {
+    Particle.function("Alive", Alive);
+    start = millis();
+ //   dht.begin();
+
+    client.connect("");
+
+    if (client.isConnected()) {
+        client.subscribe("urbanFarm/request");
+    }
+
+}
+
+void loop() {
+
+    if(millis() - start > 1800000) System.reset();
+    if (client.isConnected()) client.loop();
+
+}

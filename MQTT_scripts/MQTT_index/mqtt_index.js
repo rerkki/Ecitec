@@ -1,4 +1,4 @@
-const ﻿mqtt = require('mqtt');
+﻿const ﻿mqtt = require('mqtt');
 const broker = 'mqtt://broker.hivemq.com:1883';
 const user = '';
 const pw = '';
@@ -23,7 +23,7 @@ mq.on('reconnect', function(err) {
 });
 
 function pub_index(){
-  mq.publish('request', i.toString());
+  mq.publish('opiframe3/request', i.toString());
   i +=1;
 };
 

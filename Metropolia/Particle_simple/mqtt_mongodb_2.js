@@ -16,6 +16,7 @@ var client_m;
 
 
 function save_data() {
+	console.log(obj);
 	 obj_ = JSON.parse(obj);
 	 m_obj = {Time: timeConverter(Date.now()), Gas: obj_.Gas};
 	 console.log(m_obj);
