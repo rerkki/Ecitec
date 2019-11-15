@@ -1,7 +1,6 @@
 {
   "name": "mqtt_index",
   "version": "1.0.0",
-  "description": "",
   "main": "mqtt_index.js",
   "dependencies": {
     "mqtt": "^3.0.0"
@@ -11,5 +10,6 @@
     "start": "node mqtt_index.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "description": ""
 }

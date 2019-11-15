@@ -23,10 +23,10 @@ mq.on('reconnect', function(err) {
 });
 
 function pub_index(){
-  mq.publish('opiframe3/request', i.toString());
+  mq.publish('opiframe3/request/ID0', i.toString());
   i +=1;
 };
 
 mq.on('connect', function () {
-  setInterval(function(){pub_index()},5000)
+  setInterval(function(){pub_index()},30000)
 })

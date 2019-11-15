@@ -1,0 +1,16 @@
+{
+  "name": "mqtt_particle",
+  "version": "1.0.0",
+  "main": "mqtt_particle.js",
+  "dependencies": {
+    "mongodb": "^3.3.4",
+    "mqtt": "^3.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node mqtt_particle.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

@@ -1,16 +1,12 @@
 
 var mqtt    = require('mqtt');
-
-var mq  = mqtt.connect('mqtt://broker.mqttdashboard.com:1883',{
-//  username: 'YYYYYYYYYYYY',
-//  password: 'XXXXXXXXXXXX'
-});
-
+var mq  = mqtt.connect('mqtt://broker.mqttdashboard.com:1883',{});
 var MongoClient = require('mongodb').MongoClient;
 
 var myCollection;
 var db;
 var obj;
+var i = 0;
 
 mq.on('connect', function(){
     console.log('Connected');
@@ -18,11 +14,12 @@ mq.on('connect', function(){
 });
 
 function pub_index(){
-  mq.publish('opiframe3/request/ID0', i.toString());
+  mq.publish('opiframe3/request/ID2', i.toString());  //CHANGE CORRECT ID#
   i +=1;
+  console.log(i);
 };
 
-mq.subscribe('opiframe3/data/ID0');
+mq.subscribe('opiframe3/data/ID2'); //CHANGE CORRECT ID#
 
 mq.on('message', function(topic, message) {
   console.log(message.toString('utf8'));
@@ -35,12 +32,14 @@ mq.on('message', function(topic, message) {
 });
 
 function createConnection(onCreate){
-    MongoClient.connect('mongodb+srv://<user>:<password>@clusterxxxxxxxx.mongodb.net/DHT_data?retryWrites=true&w=majority', function(err, client_m) {
-        db = client_m.db('DHT_data');
+  //CHANGE YOUR OWN connection string (get it from Mongo Atlas)
+  //CHECK YOU HAVE CORRECT DB (e.g. mongotest)
+    MongoClient.connect('mongodb+srv://opiframe:opiframe@cluster0-pn4gb.gcp.mongodb.net/mongotest?retryWrites=true&w=majority', function(err, client_m) {
+        db = client_m.db('mongotest'); // DB also here
 	if(err)
             throw err;
         console.log("connected to the mongoDB !");
-        myCollection = db.collection('DHT_data');
+        myCollection = db.collection('DHT_data'); //Collection can be DHT_data or any name
         onCreate();
 	client_m.close();
     });
@@ -71,6 +70,3 @@ function timeConverter(UNIX_timestamp){
   var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
   return time;
 }
-
-
-//console.log(timeConverter(Date.now()));
