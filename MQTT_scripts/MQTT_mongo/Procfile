@@ -1,1 +1,1 @@
-worker: node mqtt_publisher.js
+worker: node mqtt_mongo.js
