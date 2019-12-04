@@ -28,14 +28,17 @@ function random(low, high) {
 }
 
 function pub_index(){
-  var obj = { Time: timeConverter(Date.now()), T: random(10,30), H: random(40, 100)};
+  var t = random(10,30);
+  var h = random(20,90);
+  var dp = t - (100 - h)/5;
+  var obj = { Time: timeConverter(Date.now()), T: t, H: h, DP: dp };
   var obj_str = JSON.stringify(obj);
   console.log(obj);
-  mq.publish('DHT_data', obj_str);
+  mq.publish('DHT_data2', obj_str);
 };
 
 mq.on('connect', function () {
-  setInterval(function(){pub_index()},15000)
+  setInterval(function(){pub_index()},3000)
 })
 
 if (!Date.now) {

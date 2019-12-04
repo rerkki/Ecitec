@@ -1,7 +1,6 @@
 {
-  "name": "DHT_mongo_master",
+  "name": "dht_mongo_master",
   "version": "1.0.0",
-  "description": "",
   "main": "DHT_mongo_master.js",
   "scripts": {
     "start": "node DHT_mongo_master.js"
@@ -11,5 +10,7 @@
   "dependencies": {
     "mongodb": "^3.3.2",
     "mqtt": "^3.0.0"
-  }
+  },
+  "devDependencies": {},
+  "description": ""
 }

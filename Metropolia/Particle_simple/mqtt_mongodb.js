@@ -17,7 +17,7 @@ var client_m;
 
 function save_data() {
 	 obj_ = JSON.parse(obj);
-	 m_obj = {Time: timeConverter(Date.now()), Gas: obj_.Gas};
+	 m_obj = {Time: timeConverter(Date.now()), T: obj_.T, H: obj_.H, DP: obj_.DP};
 	 console.log(m_obj);
 	   createConnection(function(){
     		  addDocument(function(){
@@ -35,12 +35,12 @@ function addDocument(onAdded){
 }
 
 function createConnection(onCreate){
-    MongoClient.connect('mongodb+srv://opiframe:opiframe@cluster0-fn7gd.gcp.mongodb.net/urban_gas?retryWrites=true&w=majority', function(err, client_m) {
-	db = client_m.db('urban_gas');
+    MongoClient.connect('mongodb+srv://opiframe:opiframe@cluster0-fn7gd.gcp.mongodb.net/dhtData?retryWrites=true&w=majority', function(err, client_m) {
+	db = client_m.db('dhtData');
 	   if(err)
               throw err;
 	   console.log("connected to the mongoDB !");
-	   myCollection = db.collection('urban_gas');
+	   myCollection = db.collection('dhtData');
 	   onCreate();
 	   client_m.close();
     });

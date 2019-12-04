@@ -10,7 +10,7 @@ var i = 0;
 
 mq.on('connect', function(){
     console.log('Connected');
-    setInterval(function(){pub_index()},5000)
+    setInterval(function(){pub_index()},15000)
 });
 
 function pub_index(){

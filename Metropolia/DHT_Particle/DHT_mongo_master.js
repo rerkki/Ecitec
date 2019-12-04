@@ -24,7 +24,8 @@ mq.on('reconnect', function(err) {
   return console.log("mq_pub reconnected");
 });
 
-function save_messages(){
+function pub_index(){
+  mq.publish('urbanFarm/request', timeConverter(Date.now()).toString() );
   setTimeout(function() {
     console.log(objArr);
     console.log(objArr.length);
@@ -38,23 +39,16 @@ function save_messages(){
    },500)
 }
 
-function pub_index(){
-mq.publish('urbanFarm/request', timeConverter(Date.now()).toString() );
-}
-
 mq.on('connect', function(err) {
-   console.log('Connected...');
-   setInterval(function(){pub_index()},5000)
+  setInterval(function(){pub_index()},900000)
 })
 
 mq.on('message', function(topic, message) {
   obj = JSON.parse(message);
+  console.log(obj);
   msg +=1;
   obj_m = {Group: obj.ID, Time: obj.Time, T: Number(obj.T.toFixed(1)), H: Number(obj.H.toFixed(1))};
   objArr[msg-1]= obj_m;
-    if(objArr.length > 1) {
-	save_messages();
-    }
 });
 
 mq.subscribe('urbanFarm/data');
@@ -76,7 +70,7 @@ function timeConverter(UNIX_timestamp){
 }
 
 function createConnection(onCreate){
-    MongoClient.connect('mongodb+srv://eki:langistester@cluster0-fn7gd.gcp.mongodb.net/UrbanFarm?retryWrites=true&w=majority', function(err, client_m) {
+    MongoClient.connect('mongodb+srv://metropolia:metropolia@cluster0-fn7gd.gcp.mongodb.net/UrbanFarm?retryWrites=true&w=majority', function(err, client_m) {
 	db = client_m.db('UrbanFarm');
 	   if(err)
               throw err;
@@ -93,7 +87,7 @@ function addDocument(onAdded){
           if(err)
               throw err;
           console.log("entry saved");
-	  objArr = [];
+	        objArr = [];
           msg = 0;
           onAdded();
       });

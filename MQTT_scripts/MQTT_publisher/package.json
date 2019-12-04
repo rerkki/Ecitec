@@ -1,7 +1,6 @@
 {
   "name": "mqtt_publisher",
   "version": "1.0.0",
-  "description": "",
   "main": "mqtt_publisher.js",
   "scripts": {
     "start": "node mqtt_publisher.js"
@@ -13,5 +12,6 @@
   },
   "engines": {
     "node": "10.x"
-  }
+  },
+  "description": ""
 }
