@@ -1,5 +1,5 @@
 {
-  "name": "mqtt_publisher",
+  "name": "mqtt_mongo",
   "version": "1.0.0",
   "description": "",
   "main": "mqtt_mongo.js",

@@ -31,7 +31,7 @@ mq.on('connect', function(){
     console.log('Connected.....');
 });
 
-mq.subscribe('DHT_data/#');
+mq.subscribe('Opiframe6/#');
 
 function addDocument(onAdded){
 			myCollection.insert(obj, function(err, result) {
@@ -43,12 +43,12 @@ function addDocument(onAdded){
 }
 
 function createConnection(onCreate){
-    MongoClient.connect('mongodb+srv://<user>:<password>@clusterxxxxxxxx.mongodb.net/DHT_data?retryWrites=true&w=majority', function(err, client_m) {
-        db = client_m.db('DHT_data');
+    MongoClient.connect('mongodb://opiframe:opiframe@cluster0-shard-00-00-fn7gd.gcp.mongodb.net:27017,cluster0-shard-00-01-fn7gd.gcp.mongodb.net:27017,cluster0-shard-00-02-fn7gd.gcp.mongodb.net:27017/dhtData?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority', function(err, client_m) {
+        db = client_m.db('dhtData');
 					if(err)
             throw err;
         console.log("connected to the mongoDB !");
-        myCollection = db.collection('DHT_data');
+        myCollection = db.collection('dhtData');
         onCreate();
 	    client_m.close();
     });
