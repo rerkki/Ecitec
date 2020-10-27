@@ -38,7 +38,7 @@ function pub_index(){
 };
 
 mq.on('connect', function () {
-  setInterval(function(){pub_index()},3000)
+  setInterval(function(){pub_index()},15000)
 })
 
 if (!Date.now) {
