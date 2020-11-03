@@ -34,7 +34,7 @@ function pub_index(){
   var obj = { Time: timeConverter(Date.now()), T: t, H: h, DP: dp };
   var obj_str = JSON.stringify(obj);
   console.log(obj);
-  mq.publish('DHT_data2', obj_str);
+  mq.publish('automaatio', obj_str);
 };
 
 mq.on('connect', function () {
