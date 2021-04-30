@@ -1,0 +1,16 @@
+{
+  "name": "kaivodata",
+  "version": "1.0.0",
+  "main": "kaivo.js",
+  "scripts": {
+    "start": "node kaivo.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^3.3.2",
+    "mqtt": "^3.0.0"
+  },
+  "devDependencies": {},
+  "description": ""
+}
