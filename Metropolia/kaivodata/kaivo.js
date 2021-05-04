@@ -49,7 +49,7 @@ particle.getEventStream({ deviceId: id, auth: token }).then(function(stream) {
   var obj_;
     stream.on('event', function(obj_) {
 			console.log("Event: ", obj_);
-				if(obj_.name=="dsTmp") obj = JSON.parse(obj_.data);
+				if(obj_.name=="kaivo") obj = JSON.parse(obj_.data);
 				console.log(obj);
 					save_data();
     		});
